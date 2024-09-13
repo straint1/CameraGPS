@@ -1,0 +1,5 @@
+opencv-python
+pandas
+convertbng
+pynmeagps
+. -e
