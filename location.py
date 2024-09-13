@@ -1,5 +1,4 @@
-import time
-
+import datetime
 from convertbng.util import convert_bng
 from gps import *
 
@@ -33,7 +32,9 @@ class PositionTracker:
                 self.convert_coords()
                 # get time and acc meta
                 self.horizontal_accuracy = getattr(nx, "eph", None)
+                # get time and parse
                 self.time = getattr(nx, "time", None)
+                self.parse_time()
                 self.reading_num += 1
                 # stop loop
                 reading = True
@@ -43,6 +44,13 @@ class PositionTracker:
         res_list = convert_bng(self.longitude, self.latitude)
         self.easting = res_list[0][0]
         self.northing = res_list[1][0]
+
+    def parse_time(self):
+        """
+        parse time stamp
+        """
+        if self.time is not None:
+            self.parsed_time = datetime.datetime.strptime(self.time, "%Y-%m-%dT%H:%M:%S.%fZ")
 
 
 if __name__ == "__main__":
